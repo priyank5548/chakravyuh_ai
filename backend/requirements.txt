@@ -1,0 +1,10 @@
+flask
+flask-cors
+anthropic
+pandas
+numpy
+scikit-learn
+joblib
+# Optional — for YOLOv8 camera/drone detection (can skip for demo)
+# ultralytics
+# opencv-python-headless

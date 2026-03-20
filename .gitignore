@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+
+# ML artifacts
+*.pkl
+*.pt
+*.h5
+
+# Datasets
+datasets/
+*.csv
+
+# Outputs
+chakravyuh_outputs/
+
+# Frontend
+frontend/node_modules/
+frontend/build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
