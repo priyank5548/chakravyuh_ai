@@ -3,20 +3,6 @@
 
 ![Main Dashboard](assets/dashboard.png)
 
-## 📸 Demo
-
-<p align="center">
-  <img src="assets/dashboard.png" width="800"/>
-</p>
-
-<p align="center">
-  <img src="assets/map.png" width="800"/>
-</p>
-
-<p align="center">
-  <img src="assets/quantum.png" width="800"/>
-</p>
-
 ![Version](https://img.shields.io/badge/version-v1.0-ff2d55?style=for-the-badge&logo=github)
 ![Status](https://img.shields.io/badge/status-OPERATIONAL-00ff88?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-Academic-00e5ff?style=for-the-badge)
