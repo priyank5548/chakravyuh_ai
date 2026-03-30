@@ -73,37 +73,37 @@ The system processes data from 5 real cybersecurity and IoT datasets, runs 3 AI/
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        DATA SOURCES                             │
-│   NSL-KDD · RT-IoT2022 · UNSW-NB15 · Network CSV · Intrusion   │
+│   NSL-KDD · RT-IoT2022 · UNSW-NB15 · Network CSV · Intrusion    │
 └────────────────────────┬────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                  ML PIPELINE  (run_pipeline.py)                  │
+│                  ML PIPELINE  (run_pipeline.py)                 │
 │   Auto-Discovery → Fuzzy Merge (8,208 rows) → EDA → Train       │
 │         ↓                    ↓                     ↓            │
-│   Isolation Forest     Random Forest           EDA Charts        │
+│   Isolation Forest     Random Forest           EDA Charts       │
 │   (iso_model.pkl)     (rf_model.pkl)           (5 PNGs)         │
 └────────────────────────┬────────────────────────────────────────┘
                          │  PKL files + CSV outputs
                          ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                  FLASK BACKEND  (app.py)                         │
-│                                                                  │
+│                  FLASK BACKEND  (app.py)                        │
+│                                                                 │
 │  ┌──────────────┐ ┌───────────────┐ ┌───────────────────────┐   │
 │  │   YOLOv8     │ │ Iso Forest    │ │   Random Forest       │   │
 │  │  (webcam)    │ │ (anomaly)     │ │   (classification)    │   │
 │  └──────────────┘ └───────────────┘ └───────────────────────┘   │
 │                    ↓                                            │
 │          Quantum Security Layer  (quantum_security.py)          │
-│          Kyber-512 KEM · Dilithium2 Signatures · AES-256-GCM   │
-│                                                                  │
+│          Kyber-512 KEM · Dilithium2 Signatures · AES-256-GCM    │
+│                                                                 │
 │   REST API Endpoints → frontend + quantum dashboard             │
 └────────────────────────┬────────────────────────────────────────┘
                          │  JSON
                          ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│               REACT FRONTEND  (App.jsx)                          │
-│                                                                  │
+│               REACT FRONTEND  (App.jsx)                         │
+│                                                                 │
 │  OVERVIEW · LIVE DEMO · CCTV · DRONE · THREATS · ANALYTICS      │
 │            SENSORS · OSINT · MAP · QUANTUM                      │
 └─────────────────────────────────────────────────────────────────┘
