@@ -1,6 +1,8 @@
 # ⚔️ CHAKRAVYUH-AI
 ### Border Defence & Surveillance Intelligence Dashboard
 
+![Main Dashboard](assets/dashboard.png)
+
 ## 📸 Demo
 
 <p align="center">
