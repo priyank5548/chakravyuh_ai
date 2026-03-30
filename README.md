@@ -1,6 +1,20 @@
 # ⚔️ CHAKRAVYUH-AI
 ### Border Defence & Surveillance Intelligence Dashboard
 
+## 📸 Demo
+
+<p align="center">
+  <img src="assets/dashboard.png" width="800"/>
+</p>
+
+<p align="center">
+  <img src="assets/map.png" width="800"/>
+</p>
+
+<p align="center">
+  <img src="assets/quantum.png" width="800"/>
+</p>
+
 ![Version](https://img.shields.io/badge/version-v1.0-ff2d55?style=for-the-badge&logo=github)
 ![Status](https://img.shields.io/badge/status-OPERATIONAL-00ff88?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-Academic-00e5ff?style=for-the-badge)
@@ -17,6 +31,15 @@
 ![PQC](https://img.shields.io/badge/Quantum-Kyber_512_+_Dilithium2-9B59B6?style=flat-square)
 
 > A full-stack AI/ML surveillance intelligence system that simulates a multi-sensor border defence network using real cybersecurity datasets, trained machine learning models, and a Post-Quantum Cryptography signing layer.
+
+---
+
+## 🚀 Why This Matters
+
+- Simulates real-world border intelligence systems
+- Combines AI + Cybersecurity + Post-Quantum Cryptography
+- Demonstrates multi-layer threat detection pipeline
+- Shows how ML outputs can be secured against tampering
 
 ---
 
@@ -38,6 +61,15 @@
 
 ---
 
+## 🧠 Key Highlights
+
+- 3 ML models integrated in a real-time pipeline
+- 8 REST API endpoints powering full-stack system
+- 8,200+ dataset rows processed and merged
+- Post-quantum signature chain with key rotation
+- Full-stack architecture (React + Flask + ML pipeline)
+
+---
 ## 🔭 Overview
 
 **CHAKRAVYUH-AI v1.0** is a full-stack, dataset-driven border defence surveillance dashboard that integrates multiple AI/ML paradigms — supervised learning, unsupervised anomaly detection, and deep learning — into a unified real-time intelligence platform.
@@ -65,6 +97,18 @@ The system processes data from 5 real cybersecurity and IoT datasets, runs 3 AI/
 | False Alarms | Isolation Forest anomaly filtering + FP suppression |
 | Resource Constraints | Drone module simulating aerial coverage of remote zones |
 | Data Integration | Auto-discovery ML pipeline with fuzzy schema mapping |
+
+---
+
+## 🔄 How It Works (Simple Flow)
+
+1. YOLO detects objects from CCTV / dataset
+2. Features extracted into structured vectors
+3. Isolation Forest detects anomalies
+4. Random Forest classifies threat levels
+5. Alert priority is calculated
+6. Output is signed using post-quantum cryptography
+7. Data is sent to dashboard via REST APIs
 
 ---
 
