@@ -1,30 +1,56 @@
-# Python
+# ================================
+# PYTHON
+# ================================
 __pycache__/
-*.py[cod]
-.env
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual Environment
 .venv/
 venv/
+env/
 
-# ML artifacts
-*.pkl
-*.pt
-*.h5
+# ================================
+# NODE / REACT
+# ================================
+node_modules/
+build/
+dist/
 
-# Datasets
-datasets/
-*.csv
-
-# Outputs
-chakravyuh_outputs/
-
-# Frontend
-frontend/node_modules/
-frontend/build/
-
-# OS
+# ================================
+# OS FILES
+# ================================
 .DS_Store
 Thumbs.db
 
-# IDE
-.vscode/
-.idea/
+# ================================
+# DATASETS (LARGE FILES)
+# ================================
+datasets/*.csv
+datasets/**/*.csv
+
+# ================================
+# ML PIPELINE OUTPUTS (OPTIONAL)
+# Keep models + main dataset, ignore heavy extras
+# ================================
+ml_pipeline/chakravyuh_outputs/*.png
+ml_pipeline/chakravyuh_outputs/*.log
+
+# ================================
+# ENV / SECRETS
+# ================================
+.env
+.env.local
+
+# ================================
+# JUPYTER / TEMP
+# ================================
+.ipynb_checkpoints/
+
+# ================================
+# DEBUG / CACHE
+# ================================
+.cache/
+*.tmp

@@ -1,6 +1,27 @@
+# ================================
+# CORE DATA PROCESSING
+# ================================
 pandas
 numpy
-matplotlib
-seaborn
+
+# ================================
+# MACHINE LEARNING
+# ================================
 scikit-learn
 joblib
+
+# ================================
+# VISUALIZATION (EDA OUTPUTS)
+# ================================
+matplotlib
+seaborn
+
+# ================================
+# FILE HANDLING / PARSING
+# ================================
+python-dateutil
+
+# ================================
+# OPTIONAL (RECOMMENDED FOR STABILITY)
+# ================================
+tqdm

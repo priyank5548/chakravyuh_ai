@@ -1,3 +1,106 @@
+"""
+╔═════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                     ║
+║   ██████╗██╗  ██╗ █████╗ ██╗  ██╗██████╗  █████╗ ██╗   ██╗██╗   ██╗██╗ ██╗██╗  ██╗  ║
+║  ██╔════╝██║  ██║██╔══██╗██║ ██╔╝██╔══██╗██╔══██╗██║   ██║╚██╗ ██╔╝██║ ██║██║  ██║  ║
+║  ██║     ███████║███████║█████╔╝ ██████╔╝███████║██║   ██║ ╚████╔╝ ██║ ██║███████║  ║
+║  ██║     ██╔══██║██╔══██║██╔═██╗ ██╔══██╗██╔══██║╚██╗ ██╔╝  ╚██╔╝  ██║ ██║██╔══██║  ║
+║  ╚██████╗██║  ██║██║  ██║██║  ██╗██║  ██║██║  ██║ ╚████╔╝    ██║   ██████║██║  ██║  ║
+║   ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝     ╚═╝   ╚═════╝╚═╝  ╚═╝  ║
+║                                                                                     ║
+║   CHAKRAVYUH-AI  v1.0  —  Border Defence & Surveillance Intelligence Dashboard      ║
+║                                                                                     ║
+╠═════════════════════════════════════════════════════════════════════════════════════╣
+║  FILE  :  ml_pipeline / run_pipeline.py                                             ║
+║  ROLE  :  Auto-discovery ML training pipeline v5.0                                  ║
+║           Scans datasets/ recursively, fuzzy-maps column schemas, merges all        ║
+║           CSV files, trains 2 ML models, generates EDA charts, exports PKL files.   ║
+╠═════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                     ║
+║  PIPELINE STAGES                                                                    ║
+║  ─────────────────────────────────────────────────────────────────────────────────  ║
+║  Stage 1  Dataset Auto-Discovery                                                    ║
+║           ▸ Recursively scans datasets/ folder for all *.csv files                  ║
+║           ▸ Fuzzy column name mapping handles different dataset schemas             ║
+║             (e.g. "attack_type" → threat_level, "label" → threat_level)             ║
+║           ▸ Merges all datasets into one unified 8,208-row DataFrame                ║
+║                                                                                     ║
+║  Stage 2  Feature Engineering                                                       ║
+║           ▸ 10 features extracted per row: motion_intensity, seismic_value,         ║
+║             thermal_delta, rf_burst_count, object_count, speed_kmh, is_night,       ║
+║             weather_code, distance_border, obj_enc                                  ║
+║           ▸ Schema exactly mirrors app.py extract_features() for inference parity   ║
+║                                                                                     ║
+║  Stage 3  Isolation Forest  (Unsupervised Anomaly Detection)                        ║
+║           ▸ contamination=0.12  ·  n_estimators=200  ·  random_state=42             ║
+║           ▸ Detects 975 anomalies from 8,208 rows                                   ║
+║           ▸ WHY: Catches unknown threats with no labelled data required.            ║
+║             An adversary using a novel infiltration method will still produce       ║
+║             anomalous sensor readings that Isolation Forest can detect.             ║
+║           ▸ Output: model_isolation_forest.pkl                                      ║
+║                                                                                     ║
+║  Stage 4  Random Forest Classifier  (Supervised Threat Classification)              ║
+║           ▸ n_estimators=200  ·  max_depth=12  ·  5-fold cross-validation           ║
+║           ▸ 80.2% accuracy  ·  CV score 73.9%                                       ║
+║           ▸ WHY: Provides interpretable threat labels (CRITICAL/HIGH/MEDIUM/LOW)    ║
+║             backed by probability scores — unlike black-box deep learning models.   ║
+║             Field commanders need explainable classifications, not probabilities.   ║
+║           ▸ Output: model_random_forest_classifier.pkl                              ║
+║                     scaler_random_forest.pkl                                        ║
+║                     label_encoder_threat.pkl                                        ║
+║                                                                                     ║
+║  Stage 5  Risk Zone Prediction                                                      ║
+║           ▸ Groups sensor data by location, computes mean anomaly + FP rate         ║
+║           ▸ Predicts 27 high-risk border zones ranked by risk score                 ║
+║           ▸ Output: high_risk_zone_predictions.csv                                  ║
+║                                                                                     ║
+║  Stage 6  EDA Visualisation                                                         ║
+║           ▸ Generates 5 EDA PNG charts: threat distribution, anomaly scores,        ║
+║             correlation heatmap, feature importances, timeline analysis             ║
+║           ▸ Charts displayed in the Analytics module of the dashboard               ║
+║                                                                                     ║
+╠═════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                     ║
+║  DATASETS USED                                                                      ║
+║  ─────────────────────────────────────────────────────────────────────────────────  ║
+║  ▸ NSL-KDD           Train_data.csv / Test_data.csv   (network intrusion, UNB)      ║
+║  ▸ UNSW-NB15         train_test_network.csv            (network attacks, UNSW)      ║
+║  ▸ RT-IoT2022        RT_IOT2022.csv                    (IoT traffic, UCI)           ║
+║  ▸ Cybersecurity     cybersecurity_intrusion_data.csv  (Kaggle)                     ║
+║  ▸ Events            UNSW-NB15_LIST_EVENTS(in).csv     (event labels)               ║
+║                                                                                     ║
+║  All datasets are real — no synthetic rows are used in training or inference.       ║
+║                                                                                     ║
+╠═════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                     ║
+║  OUTPUT FILES  →  ml_pipeline/chakravyuh_outputs/                                   ║
+║  ─────────────────────────────────────────────────────────────────────────────────  ║
+║  model_isolation_forest.pkl          Isolation Forest trained model                 ║
+║  model_random_forest_classifier.pkl  Random Forest trained model                    ║
+║  scaler_random_forest.pkl            StandardScaler for RF features                 ║
+║  label_encoder_threat.pkl            LabelEncoder for threat levels                 ║
+║  border_sensor_dataset.csv           Merged, feature-engineered dataset             ║
+║  high_risk_zone_predictions.csv      27 predicted high-risk zones                   ║
+║  eda_*.png                           5 EDA visualisation charts                     ║
+║                                                                                     ║
+║  Copy PKL files to backend/chakravyuh_outputs/ after running this pipeline.         ║
+║                                                                                     ║
+╠═════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                     ║
+║  INSTALLATION                                                                       ║
+║  ─────────────────────────────────────────────────────────────────────────────────  ║
+║  pip install numpy pandas scikit-learn matplotlib seaborn joblib                    ║
+║                                                                                     ║
+║  Run:                                                                               ║
+║    python ml_pipeline/run_pipeline.py                                               ║
+║                                                                                     ║
+║  Then copy outputs to backend:                                                      ║
+║    copy ml_pipeline\chakravyuh_outputs\*.pkl backend\chakravyuh_outputs\            ║
+║    copy ml_pipeline\chakravyuh_outputs\*.csv backend\chakravyuh_outputs\            ║
+║                                                                                     ║
+╚═════════════════════════════════════════════════════════════════════════════════════╝
+"""
+
 import os, sys, warnings, glob
 import numpy  as np
 import pandas as pd
@@ -196,24 +299,24 @@ all_files = scan_dataset_folder(DATA_DIR)
 if not all_files:
     print(f"""
   ╔══════════════════════════════════════════════════════════════╗
-  ║  NO DATASETS FOUND IN '{DATA_DIR}/' FOLDER                  ║
+  ║  NO DATASETS FOUND IN '{DATA_DIR}/' FOLDER                   ║
   ╠══════════════════════════════════════════════════════════════╣
-  ║  Pipeline requires at least one dataset to run.             ║
-  ║                                                             ║
-  ║  HOW TO ADD DATASETS:                                       ║
-  ║    1. Create folder: CHAKRAVYUH_FINAL/datasets/             ║
-  ║    2. Drop your CSV/JSON/XLSX files inside                  ║
-  ║    3. Sub-folders are fine — pipeline scans recursively     ║
-  ║    4. Run this script again                                 ║
-  ║                                                             ║
-  ║  RECOMMENDED DATASETS:                                      ║
-  ║    • NSL-KDD (anomaly detection)                           ║
-  ║      kaggle datasets download -d START-HERE-FULL/nsl-kdd   ║
-  ║    • VisDrone (object detection labels)                     ║
-  ║      github.com/VisDrone/VisDrone-Dataset                  ║
-  ║    • GTD (terrorism / risk zones)                           ║
-  ║      kaggle datasets download -d rdoume/bofregression       ║
-  ║    • Any CSV with numeric sensor/event columns              ║
+  ║  Pipeline requires at least one dataset to run.              ║
+  ║                                                              ║
+  ║  HOW TO ADD DATASETS:                                        ║
+  ║    1. Create folder: CHAKRAVYUH_FINAL/datasets/              ║
+  ║    2. Drop your CSV/JSON/XLSX files inside                   ║
+  ║    3. Sub-folders are fine — pipeline scans recursively      ║
+  ║    4. Run this script again                                  ║
+  ║                                                              ║
+  ║  RECOMMENDED DATASETS:                                       ║
+  ║    • NSL-KDD (anomaly detection)                             ║
+  ║      kaggle datasets download -d START-HERE-FULL/nsl-kdd     ║
+  ║    • VisDrone (object detection labels)                      ║
+  ║      github.com/VisDrone/VisDrone-Dataset                    ║
+  ║    • GTD (terrorism / risk zones)                            ║
+  ║      kaggle datasets download -d rdoume/bofregression        ║
+  ║    • Any CSV with numeric sensor/event columns               ║
   ╚══════════════════════════════════════════════════════════════╝
 """)
     sys.exit(0)
@@ -346,7 +449,14 @@ def build_standard_row(source_row, col_mapping, file_key, hotspot_defaults):
     thermal  = norm(get("thermal_delta",    0),  -10, 50)
     seismic  = norm(get("seismic_value",    0),    0, 10)
     rf       = norm(get("rf_burst_count",   0),    0, 50)
-    obj_cnt  = int(min(get("object_count",  0),   50))
+    val = get("object_count", 0)
+    try:
+        val = float(val)
+    except:
+        val = 0
+
+    obj_cnt = int(min(val, 50))
+    
     weather  = int(min(get("weather_code",  0),    4))
     speed    = float(get("speed_kmh",       0))
     dist     = float(max(get("distance_border", 1.0), 0.01))

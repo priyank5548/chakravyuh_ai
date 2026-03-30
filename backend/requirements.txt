@@ -1,10 +1,40 @@
+# ================================
+# CORE BACKEND
+# ================================
 flask
 flask-cors
-anthropic
+
+# ================================
+# AI / ML STACK
+# ================================
 pandas
 numpy
 scikit-learn
 joblib
-# Optional — for YOLOv8 camera/drone detection (can skip for demo)
-# ultralytics
-# opencv-python-headless
+
+# ================================
+# COMPUTER VISION (YOLO / CCTV / Drone)
+# ================================
+ultralytics
+opencv-python
+
+# ================================
+# CRYPTOGRAPHY (FALLBACK + HYBRID)
+# ================================
+pycryptodome
+
+# ================================
+# POST-QUANTUM CRYPTO (OPTIONAL)
+# ================================
+liboqs-python
+
+# ================================
+# LLM / AI BRIEFING
+# ================================
+anthropic
+
+# ================================
+# UTILITIES (RECOMMENDED)
+# ================================
+python-dotenv
+requests
