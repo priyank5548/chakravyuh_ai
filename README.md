@@ -42,7 +42,7 @@
 
 **CHAKRAVYUH-AI v1.0** is a full-stack, dataset-driven border defence surveillance dashboard that integrates multiple AI/ML paradigms — supervised learning, unsupervised anomaly detection, and deep learning — into a unified real-time intelligence platform.
 
-The system processes data from 5 real cybersecurity and IoT datasets, runs 3 AI/ML models simultaneously, and presents actionable threat intelligence through a military-grade React dashboard with 10 operational modules. All threat outputs, risk zones, sensor readings, and alert classifications are derived from real datasets. No data is randomly generated.
+The system processes data from 5 real cybersecurity and IoT datasets, runs 3 AI/ML models simultaneously, and presents actionable threat intelligence through a military-grade React dashboard with 10 operational modules. All threat outputs, risk zones, sensor readings, and alert classifications are derived from real datasets. Most outputs are derived from real datasets, with fallback logic used when features are unavailable.
 
 > *"Inspired by the ancient military formation — an inescapable, multi-layered defence system."*
 
